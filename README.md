@@ -5,13 +5,16 @@
 
 Space Invaders 104 is the last stage of [Kevin Glass] ' famous Series of Java2D Game Programming Tutorials.
 See the [original tutorial] for explanations of how the game was originally designed and implemented.
-This Version extends the [101 maven tutorial] done by [marcliberatore]. 
-It uses Maven as complete Dependency and Build Tool handling native Dependencies. 
+This Version extends the [101 maven tutorial] by [marcliberatore] in a way that it handles native Dependencies 
+using Maven as Dependency and Build Tool and integrates the Shift from GAGE-Timer to System.nanoTime() from the [102 maven tutorial].
 The [maven natives] plugin as demonstrated by the [maven-nativedependencies-example] creates a Distribution containing Native Libraries for Windows and *nix-Plattforms that are required by [LWJGL 2.x Framework]. For more Details read about [LWJGL Maven Integration].
+Please note, that currently there's no Support for the JOGL-Part of the original Game.
 
 [Kevin Glass]:http://www.cokeandcode.com/
 [original tutorial]:http://www.cokeandcode.com/info/tut2d-4.html
 [101 maven tutorial]:https://github.com/marcliberatore/spaceinvaders-101-java
+[marcliberatore]:https://github.com/marcliberatore
+[102 maven tutorial]:https://github.com/marcliberatore/spaceinvaders-102-java
 [maven natives]:https://code.google.com/p/mavennatives/
 [maven-nativedependencies-example]:http://mavennatives.googlecode.com/svn/trunk/maven-nativedependencies-example/
 [LWJGL 2.x Framework]:http://legacy.lwjgl.org/
