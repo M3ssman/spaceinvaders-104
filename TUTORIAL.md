@@ -5,7 +5,7 @@ Originally written by [Kevin Glass].
 
 First adopted by [Marc Liberatore].
 
-AFterwards shortened by UweHartwig.
+Afterwards shortened by [Uwe Hartwig].
 
 _Disclaimer: This tutorial is provided as is. I don't guarantee that the provided source is perfect or that that it provides best practices._
 
@@ -225,5 +225,6 @@ A large number of people over at the [Java Gaming Forums]
 [Ari Feldman]: http://www.widgetworx.com/widgetworx/portfolio/spritelib.html
 [Java Gaming Forums]: http://www.java-gaming.org/
 [Marc Liberatore]:http://people.cs.umass.edu/~liberato/
+[Uwe Hartwig]:https://github.com/UweHartwig
 
 
