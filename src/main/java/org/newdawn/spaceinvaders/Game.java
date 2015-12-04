@@ -335,14 +335,15 @@ public class Game extends Canvas implements GameWindowCallback {
 	 * @param argv The arguments that are passed into our game
 	 */
 	public static void main(String argv[]) {
-		int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","JOGL","LWJGL"},null);
-
+		//int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","JOGL","LWJGL"},null);
+		int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","LWJGL"},null);
+		
 		if (result == 0) {
 			new Game(ResourceFactory.JAVA2D);
 		} else if (result == 1) {
-			new Game(ResourceFactory.OPENGL_JOGL);
-		} else if (result == 2) {
 			new Game(ResourceFactory.OPENGL_LWJGL);
+		} else if (result == 2) {
+			new Game(ResourceFactory.OPENGL_JOGL);
 		}
 	}
 }
