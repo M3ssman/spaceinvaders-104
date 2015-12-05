@@ -22,6 +22,10 @@ import javax.swing.JOptionPane;
  * @author Kevin Glass
  */
 public class Game extends Canvas implements GameWindowCallback {
+	/**
+	 * 
+	 */
+    private static final long serialVersionUID = 1L;
 	/** The list of all the entities that exist in our game */
 	private ArrayList<Entity> entities = new ArrayList<>();
 	/** The list of entities that need to be removed from the game this loop */

@@ -5,10 +5,6 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-
-
-
-
 //import net.java.games.jogl.Animator;
 //import net.java.games.jogl.GL;
 //import net.java.games.jogl.GLCanvas;
@@ -19,7 +15,7 @@ import java.awt.event.WindowEvent;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.Animator;
 
-import jogamp.opengl.GLDrawableFactoryImpl;
+//import jogamp.opengl.GLDrawableFactoryImpl;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
@@ -30,7 +26,7 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
+//import org.lwjgl.opengl.GL12;
 import org.newdawn.spaceinvaders.GameWindow;
 import org.newdawn.spaceinvaders.GameWindowCallback;
 import org.newdawn.spaceinvaders.util.Keyboard;
@@ -134,7 +130,7 @@ public class JoglGameWindow implements GLEventListener,GameWindow {
 		frame.setResizable(false);
 		canvas.setSize(width, height);
 		frame.pack();
-		frame.show();
+		frame.setVisible(true);
 		
 		// add a listener to respond to the user closing the window. If they
 		// do we'd like to exit the game

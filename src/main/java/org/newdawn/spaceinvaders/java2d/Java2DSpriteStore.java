@@ -37,7 +37,7 @@ public class Java2DSpriteStore {
 	}
 	
 	/** The cached sprite map, from reference to sprite instance */
-	private HashMap sprites = new HashMap();
+	private HashMap<String,Sprite> sprites = new HashMap<>();
 	
 	/**
 	 * Retrieve a sprite from the store

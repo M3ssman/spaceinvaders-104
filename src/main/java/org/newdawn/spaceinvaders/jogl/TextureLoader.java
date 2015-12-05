@@ -13,7 +13,6 @@ import java.awt.image.WritableRaster;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -38,7 +37,7 @@ import com.jogamp.opengl.GL2;
  */
 public class TextureLoader {
     /** The table of textures that have been loaded in this loader */
-    private HashMap table = new HashMap();
+    private HashMap<String,Texture> table = new HashMap<>();
     /** The GL context used to load textures */
     private GL2 gl;
     /** The colour model including alpha for the GL image */
@@ -213,10 +212,10 @@ public class TextureLoader {
         // for a texture
         if (bufferedImage.getColorModel().hasAlpha()) {
             raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,texWidth,texHeight,4,null);
-            texImage = new BufferedImage(glAlphaColorModel,raster,false,new Hashtable());
+            texImage = new BufferedImage(glAlphaColorModel,raster,false,new Hashtable<>());
         } else {
             raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,texWidth,texHeight,3,null);
-            texImage = new BufferedImage(glColorModel,raster,false,new Hashtable());
+            texImage = new BufferedImage(glColorModel,raster,false,new Hashtable<>());
         }
             
         // copy the source image into the produced image
