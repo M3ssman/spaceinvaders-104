@@ -16,10 +16,16 @@
             <directory>src/main/resources</directory>
             <outputDirectory>resources</outputDirectory>
         </fileSet>
+        
+        <!-- JOGL natives -->
+        <fileSet>
+            <directory>${natives.jogl}</directory>
+            <outputDirectory>${release.natives}</outputDirectory>
+        </fileSet>
 
         <!-- LWJGL natives -->
         <fileSet>
-            <directory>${natives}</directory>
+            <directory>${natives.lwjgl}</directory>
             <outputDirectory>${release.natives}</outputDirectory>
             <includes>
                 <include>*.dll</include>

@@ -17,7 +17,8 @@
 		<lwjgl.version>2.9.3</lwjgl.version>
 		<finalName>${project.artifactId}-${project.version}.jar</finalName>
 		<main.class>org.newdawn.spaceinvaders.Game</main.class>
-		<natives>${basedir}/target/natives/</natives>
+		<natives.jogl>${basedir}/target/natives/natives/</natives.jogl>
+		<natives.lwjgl>${basedir}/target/natives/</natives.lwjgl>
 		<release.natives>natives/</release.natives>
 	</properties>
 
@@ -29,7 +30,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jogamp.gluegen</groupId>
-			<artifactId>gluegen-rt</artifactId>
+			<artifactId>gluegen-rt-main</artifactId>
 			<version>${jogl.version}</version>
 		</dependency>
 
