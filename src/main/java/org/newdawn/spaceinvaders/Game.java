@@ -23,9 +23,9 @@ import javax.swing.JOptionPane;
  */
 public class Game extends Canvas implements GameWindowCallback {
 	/** The list of all the entities that exist in our game */
-	private ArrayList entities = new ArrayList();
+	private ArrayList<Entity> entities = new ArrayList<>();
 	/** The list of entities that need to be removed from the game this loop */
-	private ArrayList removeList = new ArrayList();
+	private ArrayList<Entity> removeList = new ArrayList<>();
 	/** The entity representing the player */
 	private Entity ship;
 	/** The speed at which the player's ship should move (pixels/sec) */
@@ -335,8 +335,15 @@ public class Game extends Canvas implements GameWindowCallback {
 	 * @param argv The arguments that are passed into our game
 	 */
 	public static void main(String argv[]) {
-		//int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","JOGL","LWJGL"},null);
 		int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","LWJGL"},null);
+		
+		if(argv.length > 0) {
+			for(String s : argv) {
+				if(s.equalsIgnoreCase("JOGL")) {
+					result = 2;
+				}
+			}
+		}
 		
 		if (result == 0) {
 			new Game(ResourceFactory.JAVA2D);
