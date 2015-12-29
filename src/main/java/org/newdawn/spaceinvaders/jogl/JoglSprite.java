@@ -14,7 +14,7 @@ import com.jogamp.opengl.GL2;
  */
 public class JoglSprite implements Sprite {
 	/** The texture that stores the image for this sprite */
-	private Texture texture;
+	private KGTexture texture;
 	/** The window that this sprite can be drawn in */
 	private JoglGameWindow window;
 	/** The width in pixels of this sprite */
