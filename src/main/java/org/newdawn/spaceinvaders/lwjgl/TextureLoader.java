@@ -87,7 +87,7 @@ public class TextureLoader {
      * @throws IOException Indicates a failure to access the resource
      */
     public Texture getTexture(String resourceName) throws IOException {
-        Texture tex = (Texture) table.get(resourceName);
+        Texture tex = table.get(resourceName);
         
         if (tex != null) {
             return tex;

@@ -43,6 +43,8 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
 	/** The current accelerated graphics context */
 	private Graphics2D g;
 	
+	public String title = getClass().getSimpleName();
+	
 	/**
 	 * Create a new window to render using Java 2D. Note this will
 	 * *not* actually cause the window to be shown.

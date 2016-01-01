@@ -2,9 +2,16 @@ package org.newdawn.spaceinvaders.jogl;
 
 import java.io.IOException;
 
+//import net.java.games.jogl.GL;
+
+
+
+
 import org.newdawn.spaceinvaders.Sprite;
 
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 
 /**
  * Implementation of sprite that uses an OpenGL quad and a texture
@@ -14,7 +21,7 @@ import com.jogamp.opengl.GL2;
  */
 public class JoglSprite implements Sprite {
 	/** The texture that stores the image for this sprite */
-	private KGTexture texture;
+	private Texture texture;
 	/** The window that this sprite can be drawn in */
 	private JoglGameWindow window;
 	/** The width in pixels of this sprite */
@@ -69,7 +76,7 @@ public class JoglSprite implements Sprite {
 	 */
 	public void draw(int x, int y) {
 		// get hold of the GL content from the window in which we're drawning
-		GL2 gl = (GL2) window.getGL();
+		GL2 gl = window.getGL().getGL2();
 		
 		// store the current model matrix
 		gl.glPushMatrix();

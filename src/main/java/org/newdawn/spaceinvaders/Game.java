@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import org.newdawn.spaceinvaders.jogl.JoglGameWindow;
+import org.newdawn.spaceinvaders.lwjgl.LWJGLGameWindow;
+
 /**
  * The main hook of our game. This class with both act as a manager
  * for the display and central mediator for the game logic.
@@ -82,6 +85,18 @@ public class Game extends Canvas implements GameWindowCallback {
 
 		window.setResolution(800,600);
 		window.setGameWindowCallback(this);
+		if(window instanceof LWJGLGameWindow) {
+			LWJGLGameWindow tmp = (LWJGLGameWindow) window;
+			if(tmp.title != null) {
+				windowTitle = tmp.title;
+			}
+		}
+		if(window instanceof JoglGameWindow) {
+			JoglGameWindow tmp = (JoglGameWindow) window;
+			if(tmp.title != null) {
+				windowTitle = tmp.title;
+			}
+		}
 		window.setTitle(windowTitle);
 
 		window.startRendering();
@@ -181,7 +196,7 @@ public class Game extends Canvas implements GameWindowCallback {
 		// if there are still some aliens left then they all need to get faster, so
 		// speed up all the existing aliens
 		for (int i=0;i<entities.size();i++) {
-			Entity entity = (Entity) entities.get(i);
+			Entity entity = entities.get(i);
 
 			if (entity instanceof AlienEntity) {
 				// speed up by 2%
@@ -203,7 +218,7 @@ public class Game extends Canvas implements GameWindowCallback {
 
 		// if we waited long enough, create the shot entity, and record the time.
 		lastFire = System.currentTimeMillis();
-		ShotEntity shot = new ShotEntity(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30);
+		ShotEntity shot = new ShotEntity(this, "sprites/shot.gif",ship.getX()+10,ship.getY()-30);
 		entities.add(shot);
 	}
 
@@ -212,7 +227,6 @@ public class Game extends Canvas implements GameWindowCallback {
 	 * running game logic and rendering the scene.
 	 */
 	public void frameRendering() {
-//		SystemTimer.sleep(lastLoopTime+10-SystemTimer.getTime());
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
@@ -245,8 +259,7 @@ public class Game extends Canvas implements GameWindowCallback {
 
 		// cycle round drawing all the entities we have in the game
 		for (int i=0;i<entities.size();i++) {
-			Entity entity = (Entity) entities.get(i);
-
+			Entity entity = entities.get(i);
 			entity.draw();
 		}
 
@@ -325,7 +338,7 @@ public class Game extends Canvas implements GameWindowCallback {
 	}
 
 	/**
-	 * Notifcation that the game window has been closed
+	 * Notification that the game window has been closed
 	 */
 	public void windowClosed() {
 		System.exit(0);
@@ -339,7 +352,7 @@ public class Game extends Canvas implements GameWindowCallback {
 	 * @param argv The arguments that are passed into our game
 	 */
 	public static void main(String argv[]) {
-		int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","LWJGL"},null);
+		int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","LWJGL", "JOGL"},null);
 		
 		if(argv.length > 0) {
 			for(String s : argv) {

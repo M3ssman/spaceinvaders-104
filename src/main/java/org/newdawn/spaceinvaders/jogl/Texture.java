@@ -1,7 +1,8 @@
 package org.newdawn.spaceinvaders.jogl;
 
-import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GL;
 
+//import net.java.games.jogl.GL;
 
 /**
  * A texture to be bound within JOGL. This object is responsible for 
@@ -15,7 +16,7 @@ import com.jogamp.opengl.GL2;
  *
  * @author Kevin Glass
  */
-public class KGTexture {
+public class Texture {
     /** The GL target type */
     private int target; 
     /** The GL texture ID */
@@ -39,7 +40,7 @@ public class KGTexture {
      * @param target The GL target 
      * @param textureID The GL texture ID
      */
-    public KGTexture(int target,int textureID) {
+    public Texture(int target,int textureID) {
         this.target = target;
         this.textureID = textureID;
     }
@@ -49,7 +50,7 @@ public class KGTexture {
      *
      * @param gl The GL context to bind to
      */
-    public void bind(GL2 gl) {
+    public void bind(GL gl) {
         gl.glBindTexture(target, textureID); 
     }
     

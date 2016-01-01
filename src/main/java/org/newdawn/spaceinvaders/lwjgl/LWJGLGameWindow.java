@@ -37,7 +37,7 @@ public class LWJGLGameWindow implements GameWindow {
 	private TextureLoader textureLoader;
   
 	/** Title of window, we get it before our window is ready, so store it till needed */
-	private String title;
+	public String title = getClass().getSimpleName();
 	
 	/**
 	 * Create a new game window that will use OpenGL to 
