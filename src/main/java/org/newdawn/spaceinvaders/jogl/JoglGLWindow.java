@@ -1,20 +1,21 @@
 package org.newdawn.spaceinvaders.jogl;
 
-import java.awt.BorderLayout;
-import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import org.newdawn.spaceinvaders.GameWindow;
 import org.newdawn.spaceinvaders.GameWindowCallback;
-import org.newdawn.spaceinvaders.util.Keyboard;
 
+import com.jogamp.nativewindow.WindowClosingProtocol.WindowClosingMode;
+import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.KeyListener;
+import com.jogamp.newt.event.WindowListener;
+import com.jogamp.newt.event.WindowUpdateEvent;
+import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.util.Animator;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.util.FPSAnimator;
 
 /**
  * An implementation of GameWindow that will use OPENGL (JOGL) to
@@ -23,34 +24,30 @@ import com.jogamp.opengl.util.Animator;
  * 
  * @author Kevin Glass
  */
-public class JoglGameWindow implements GLEventListener, GameWindow {
+public class JoglGLWindow implements GLEventListener, GameWindow {
 
-	/** The frame containing the JOGL display */
-	private Frame frame;
 	/** The callback which should be notified of window events */
 	private GameWindowCallback callback;
+	
 	/** The width of the game display area */
 	private int width;
+	
 	/** The height of the game display area */
 	private int height;
-	/** The canvas which gives us access to OpenGL */
-	private GLCanvas canvas;
+
 	/** The OpenGL content, we use this to access all the OpenGL commands */
 	private GL2 gl;
+	
 	/** The loader responsible for converting images into OpenGL textures */
 	private TextureLoader textureLoader;
 
 	public String title = getClass().getSimpleName();
+	
+	private FPSAnimator animator;
+	
+	private int whichwasPressed = 0;
 
-	private Animator animator;
-
-	/**
-	 * Create a new game window that will use OpenGL to
-	 * render our game.
-	 */
-	public JoglGameWindow() {
-		frame = new Frame();
-	}
+	private GLWindow glWindow;
 
 	/**
 	 * Retrieve access to the texture loader that converts images
@@ -65,6 +62,13 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 		return textureLoader;
 	}
 
+	GLWindow getGLWindow() {
+		if(glWindow == null) {
+			glWindow = createGLWindow();
+		}
+		return glWindow;
+	}
+	
 	/**
 	 * Get access to the GL context that can be used in JOGL to
 	 * call OpenGL commands.
@@ -82,7 +86,7 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 	 *            The title to set on this window
 	 */
 	public void setTitle(String title) {
-		frame.setTitle(title);
+		getGLWindow().setTitle(title);
 	}
 
 	/**
@@ -103,35 +107,64 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 	 * display to redraw as fast as possible.
 	 */
 	public void startRendering() {
-		canvas = new GLCanvas();
-		canvas.addGLEventListener(this);
-		canvas.setFocusable(true);
-		Keyboard.init(canvas);
+		glWindow.setSize(width, height);
+		glWindow.setUndecorated(false);
+		glWindow.setPointerVisible(true);
+		glWindow.setVisible(true);
+		glWindow.setDefaultCloseOperation(WindowClosingMode.DISPOSE_ON_CLOSE);
+		glWindow.addGLEventListener(this);
+		glWindow.addKeyListener(new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent e) {}
 
-		frame.setLayout(new BorderLayout());
-		frame.add(canvas);
-		frame.setSize(width, height);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		canvas.requestFocus();
-
-		// add a listener to respond to the user closing the window. If they
-		// do we'd like to exit the game
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				if (callback != null) {
-					System.out.println("Finished with " + getClass().getSimpleName());
-					callback.windowClosed();
-				} else {
-					System.exit(0);
-				}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				whichwasPressed = e.getKeyCode();
 			}
 		});
 
-		// start a animating thread (provided by JOGL) to actively update the canvas
-		animator = new Animator(canvas);
+		glWindow.addWindowListener(new WindowListener() {
+			@Override
+			public void windowResized(com.jogamp.newt.event.WindowEvent e) {}
+
+			@Override
+			public void windowRepaint(WindowUpdateEvent e) {}
+
+			@Override
+			public void windowMoved(com.jogamp.newt.event.WindowEvent e) {}
+
+			@Override
+			public void windowLostFocus(com.jogamp.newt.event.WindowEvent e) {}
+
+			@Override
+			public void windowGainedFocus(com.jogamp.newt.event.WindowEvent e) {}
+
+			@Override
+			public void windowDestroyed(com.jogamp.newt.event.WindowEvent e) {
+				// Use a dedicate thread to run the stop() to ensure that the
+				// animator stops before program exits.
+				new Thread() {
+					@Override
+					public void run() {
+						animator.stop(); // stop the animator loop
+						System.exit(0);
+					}
+				}.start();
+			}
+
+			@Override
+			public void windowDestroyNotify(com.jogamp.newt.event.WindowEvent e) {}
+		});
+		animator = new FPSAnimator(glWindow, 60, true);
 		animator.start();
 	}
+
+	GLWindow createGLWindow() {
+	    GLCapabilities caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
+		caps.setBackgroundOpaque(true);
+		caps.setDoubleBuffered(true);
+		return GLWindow.create(caps);
+    }
 
 	/**
 	 * Register a callback that will be notified of game window
@@ -153,7 +186,7 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 	 * @return True if the specified key is pressed
 	 */
 	public boolean isKeyPressed(int keyCode) {
-		return Keyboard.isPressed(keyCode);
+		return keyCode == whichwasPressed;
 	}
 
 	/**
@@ -164,6 +197,7 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 	 *            The GL context which is being initialised
 	 */
 	public void init(GLAutoDrawable drawable) {
+		System.out.println("init at " + getClass().getSimpleName());
 		// get hold of the GL content
 		gl = drawable.getGL().getGL2();
 

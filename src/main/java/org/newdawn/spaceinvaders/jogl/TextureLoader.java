@@ -21,9 +21,6 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
 import com.jogamp.opengl.GL;
-import com.jogamp.opengl.GL2;
-
-//import net.java.games.jogl.GL;
 
 /**
  * A utility class to load textures for JOGL. This source is based

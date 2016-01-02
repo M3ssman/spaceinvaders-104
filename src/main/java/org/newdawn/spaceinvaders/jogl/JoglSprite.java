@@ -2,16 +2,10 @@ package org.newdawn.spaceinvaders.jogl;
 
 import java.io.IOException;
 
-//import net.java.games.jogl.GL;
-
-
-
-
+import org.newdawn.spaceinvaders.GameWindow;
 import org.newdawn.spaceinvaders.Sprite;
 
-import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 
 /**
  * Implementation of sprite that uses an OpenGL quad and a texture
@@ -22,12 +16,21 @@ import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 public class JoglSprite implements Sprite {
 	/** The texture that stores the image for this sprite */
 	private Texture texture;
+	
 	/** The window that this sprite can be drawn in */
-	private JoglGameWindow window;
+//	private JoglGameWindow window;
+	private GameWindow window;
 	/** The width in pixels of this sprite */
+	
 	private int width;
 	/** The height in pixels of this sprite */
+	
 	private int height;
+	
+	/**
+	 * Context to draw
+	 */
+	private GL2 glContext;
 	
 	/**
 	 * Create a new sprite from a specified image.
@@ -38,7 +41,30 @@ public class JoglSprite implements Sprite {
 	public JoglSprite(JoglGameWindow window,String ref) {
 		try {
 			this.window = window;
+			this.glContext = window.getGL();
 			texture = window.getTextureLoader().getTexture(ref);
+			
+			width = texture.getImageWidth();
+			height = texture.getImageHeight();
+		} catch (IOException e) {
+			// a tad abrupt, but our purposes if you can't find a 
+			// sprite's image you might as well give up.
+			System.err.println("Unable to load texture: "+ref);
+			System.exit(0);
+		}
+	}
+	
+	/**
+	 * Create a new sprite from a specified image.
+	 * 
+	 * @param window The window in which the sprite will be displayed
+	 * @param ref A reference to the image on which this sprite should be based
+	 */
+	public JoglSprite(JoglGLWindow glWindow,String ref) {
+		try {
+			this.glContext = glWindow.getGL();
+			this.window = glWindow;
+			texture = ((JoglGLWindow) window).getTextureLoader().getTexture(ref);
 			
 			width = texture.getImageWidth();
 			height = texture.getImageHeight();
@@ -76,7 +102,8 @@ public class JoglSprite implements Sprite {
 	 */
 	public void draw(int x, int y) {
 		// get hold of the GL content from the window in which we're drawning
-		GL2 gl = window.getGL().getGL2();
+//		GL2 gl = window.getGL().getGL2();
+		GL2 gl = glContext;
 		
 		// store the current model matrix
 		gl.glPushMatrix();

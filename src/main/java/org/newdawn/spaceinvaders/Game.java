@@ -352,7 +352,7 @@ public class Game extends Canvas implements GameWindowCallback {
 	 * @param argv The arguments that are passed into our game
 	 */
 	public static void main(String argv[]) {
-		int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","LWJGL", "JOGL"},null);
+		int result = JOptionPane.showOptionDialog(null,"Java2D or OpenGL?","Java2D or OpenGL?",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new String[] {"Java2D","LWJGL", "JOGL Frame","JOGL with GLWindow"},null);
 		
 		if(argv.length > 0) {
 			for(String s : argv) {
@@ -368,6 +368,8 @@ public class Game extends Canvas implements GameWindowCallback {
 			new Game(ResourceFactory.OPENGL_LWJGL);
 		} else if (result == 2) {
 			new Game(ResourceFactory.OPENGL_JOGL);
+		} else if (result == 3) {
+			new Game(ResourceFactory.OPENGL_JOGL_GLWINDOW);
 		}
 	}
 }
