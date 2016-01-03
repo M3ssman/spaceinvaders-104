@@ -4,7 +4,7 @@
 
 	<groupId>org.newdawn.spaceinvaders</groupId>
 	<artifactId>spaceinvaders-104</artifactId>
-	<version>1.0.4</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>spaceinvaders-104</name>
@@ -15,7 +15,7 @@
 		<java.version>1.8</java.version>
 		<jogl.version>2.3.2</jogl.version>
 		<lwjgl.version>2.9.3</lwjgl.version>
-		<finalName>${project.artifactId}-${project.version}.jar</finalName>
+		<finalName>${project.artifactId}.jar</finalName>
 		<main.class>org.newdawn.spaceinvaders.Game</main.class>
 		<natives.jogl>${basedir}/target/natives/natives/</natives.jogl>
 		<natives.lwjgl>${basedir}/target/natives/</natives.lwjgl>
@@ -42,6 +42,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
