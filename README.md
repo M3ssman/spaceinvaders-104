@@ -25,7 +25,7 @@ You'll need Apache Maven 3.0+ and JDK 1.8+. Clone the repository locally and run
 cd spaceinvaders-104 
 mvn package
 ```
-to create an archive file called `spaceinvaders-04.zip` in your `target` folder. 
+to create an archive file called `spaceinvaders-104.zip` in your `target` folder. 
 
 ## Running the Game
 Execute the Game by first unpacking the created archive, then step into the extracted Directory and pick the proper start script File. 
