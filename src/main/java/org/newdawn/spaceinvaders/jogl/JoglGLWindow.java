@@ -6,8 +6,6 @@ import org.newdawn.spaceinvaders.GameWindowCallback;
 import com.jogamp.nativewindow.WindowClosingProtocol.WindowClosingMode;
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
-import com.jogamp.newt.event.WindowListener;
-import com.jogamp.newt.event.WindowUpdateEvent;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
@@ -41,11 +39,11 @@ public class JoglGLWindow implements GLEventListener, GameWindow {
 	/** The loader responsible for converting images into OpenGL textures */
 	private TextureLoader textureLoader;
 
-	public String title = getClass().getSimpleName();
+	private String title = GameWindow.TITLE + getClass().getSimpleName();
 	
 	private FPSAnimator animator;
 	
-	private int whichwasPressed = 0;
+	private int whichwasPressed = KeyEvent.VK_F13;
 
 	private GLWindow glWindow;
 
@@ -88,6 +86,10 @@ public class JoglGLWindow implements GLEventListener, GameWindow {
 	public void setTitle(String title) {
 		getGLWindow().setTitle(title);
 	}
+	
+	public String getTitle() {
+		return title;
+	}
 
 	/**
 	 * Set the resolution of the game display area.
@@ -107,56 +109,43 @@ public class JoglGLWindow implements GLEventListener, GameWindow {
 	 * display to redraw as fast as possible.
 	 */
 	public void startRendering() {
-		glWindow.setSize(width, height);
-		glWindow.setUndecorated(false);
-		glWindow.setPointerVisible(true);
-		glWindow.setVisible(true);
-		glWindow.setDefaultCloseOperation(WindowClosingMode.DISPOSE_ON_CLOSE);
-		glWindow.addGLEventListener(this);
-		glWindow.addKeyListener(new KeyListener() {
+		GLWindow glw = getGLWindow();
+		glw.setSize(width, height);
+		glw.setUndecorated(false);
+		glw.setPointerVisible(true);
+		glw.setVisible(true);
+		glw.setDefaultCloseOperation(WindowClosingMode.DISPOSE_ON_CLOSE);
+		glw.addGLEventListener(this);
+		glw.addKeyListener(new KeyListener() {
 			@Override
-			public void keyReleased(KeyEvent e) {}
+			public void keyReleased(KeyEvent e) {
+				whichwasPressed = KeyEvent.VK_F13;
+			}
 
+			/**
+			 * The Mapping from JOGL KeyEvent to Java AWT KeyEvent
+			 */
 			@Override
 			public void keyPressed(KeyEvent e) {
-				whichwasPressed = e.getKeyCode();
+				if ( e.getKeyCode() == KeyEvent.VK_LEFT) {
+					whichwasPressed = java.awt.event.KeyEvent.VK_LEFT;
+				} else if ( e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					whichwasPressed = java.awt.event.KeyEvent.VK_RIGHT;
+				} else {
+					whichwasPressed = e.getKeyCode();
+				}
 			}
 		});
 
-		glWindow.addWindowListener(new WindowListener() {
-			@Override
-			public void windowResized(com.jogamp.newt.event.WindowEvent e) {}
-
-			@Override
-			public void windowRepaint(WindowUpdateEvent e) {}
-
-			@Override
-			public void windowMoved(com.jogamp.newt.event.WindowEvent e) {}
-
-			@Override
-			public void windowLostFocus(com.jogamp.newt.event.WindowEvent e) {}
-
-			@Override
-			public void windowGainedFocus(com.jogamp.newt.event.WindowEvent e) {}
-
-			@Override
-			public void windowDestroyed(com.jogamp.newt.event.WindowEvent e) {
-				// Use a dedicate thread to run the stop() to ensure that the
-				// animator stops before program exits.
-				new Thread() {
-					@Override
-					public void run() {
-						animator.stop(); // stop the animator loop
-						System.exit(0);
-					}
-				}.start();
-			}
-
-			@Override
-			public void windowDestroyNotify(com.jogamp.newt.event.WindowEvent e) {}
-		});
-		animator = new FPSAnimator(glWindow, 60, true);
+		animator = new FPSAnimator(glw, 60, true);
 		animator.start();
+	}
+
+	@Override
+	public void stopRendering() {
+		if(animator.isAnimating()) {
+			animator.stop(); // stop the animator loop
+		}
 	}
 
 	GLWindow createGLWindow() {
@@ -179,10 +168,11 @@ public class JoglGLWindow implements GLEventListener, GameWindow {
 	}
 
 	/**
-	 * Check if a particular key is current pressed.
+	 * Compare the stored Key
 	 *
 	 * @param keyCode
 	 *            The code associated with the key to check
+	 *            
 	 * @return True if the specified key is pressed
 	 */
 	public boolean isKeyPressed(int keyCode) {
@@ -197,7 +187,6 @@ public class JoglGLWindow implements GLEventListener, GameWindow {
 	 *            The GL context which is being initialised
 	 */
 	public void init(GLAutoDrawable drawable) {
-		System.out.println("init at " + getClass().getSimpleName());
 		// get hold of the GL content
 		gl = drawable.getGL().getGL2();
 
@@ -274,6 +263,10 @@ public class JoglGLWindow implements GLEventListener, GameWindow {
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
+		if(animator.isAnimating()) {
+			animator.stop();
+		}
+		animator.remove(drawable);
 	}
 
 }

@@ -37,14 +37,7 @@ public class LWJGLGameWindow implements GameWindow {
 	private TextureLoader textureLoader;
   
 	/** Title of window, we get it before our window is ready, so store it till needed */
-	public String title = getClass().getSimpleName();
-	
-	/**
-	 * Create a new game window that will use OpenGL to 
-	 * render our game.
-	 */
-	public LWJGLGameWindow() {
-	}
+	private String title = GameWindow.TITLE + getClass().getSimpleName();
 	
 	/**
 	 * Retrieve access to the texture loader that converts images
@@ -65,12 +58,15 @@ public class LWJGLGameWindow implements GameWindow {
 	 * @param title The title to set on this window
 	 */
 	public void setTitle(String title) {
-	    this.title = title;
 	    if(Display.isCreated()) {
 	    	Display.setTitle(title);
 	    }
 	}
 
+	public String getTitle() {
+		return title;
+	}
+	
 	/**
 	 * Set the resolution of the game display area.
 	 *
@@ -179,6 +175,11 @@ public class LWJGLGameWindow implements GameWindow {
 		return org.lwjgl.input.Keyboard.isKeyDown(keyCode);
 	}
   
+	@Override
+	public void stopRendering() {
+		Display.destroy();
+	}
+
 	/**
 	 * Run the main game loop. This method keeps rendering the scene
 	 * and requesting that the callback update its screen.
@@ -200,7 +201,6 @@ public class LWJGLGameWindow implements GameWindow {
 			
 			if(Display.isCloseRequested() || Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 				gameRunning = false;
-				Display.destroy();
 				callback.windowClosed();
 			}
 		}

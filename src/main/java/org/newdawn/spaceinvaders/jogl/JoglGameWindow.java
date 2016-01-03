@@ -40,7 +40,7 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 	/** The loader responsible for converting images into OpenGL textures */
 	private TextureLoader textureLoader;
 
-	public String title = getClass().getSimpleName();
+	private String title = GameWindow.TITLE + getClass().getSimpleName();
 
 	private Animator animator;
 
@@ -83,6 +83,10 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 	 */
 	public void setTitle(String title) {
 		frame.setTitle(title);
+	}
+
+	public String getTitle() {
+		return title;
 	}
 
 	/**
@@ -131,6 +135,10 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 		// start a animating thread (provided by JOGL) to actively update the canvas
 		animator = new Animator(canvas);
 		animator.start();
+	}
+
+	@Override
+	public void stopRendering() {
 	}
 
 	/**
@@ -240,6 +248,10 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
+		if (animator.isAnimating()) {
+			animator.stop();
+			animator.remove(drawable);
+		}
 	}
 
 }

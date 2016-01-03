@@ -9,12 +9,22 @@ package org.newdawn.spaceinvaders;
  */
 public interface GameWindow {
 	
+	public static final String TITLE = "Space Invaders 104 - ";
+	
 	/**
 	 * Set the title of the game window
 	 * 
 	 * @param title The new title for the game window
 	 */
 	public void setTitle(String title);
+	
+	/**
+	 * 
+	 * Get the initial Title Prefix for each Game Type
+	 * 
+	 * @return title
+	 */
+	public String getTitle();
 	
 	/**
 	 * Set the game display resolution
@@ -28,6 +38,11 @@ public interface GameWindow {
 	 * Start the game window rendering the display
 	 */
 	public void startRendering();
+	
+	/**
+	 * Signal that we're going to stop the game and exit
+	 */
+	public void stopRendering();
 	
 	/**
 	 * Set the callback that should be notified of the window

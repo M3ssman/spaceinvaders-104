@@ -4,8 +4,6 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -43,7 +41,7 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
 	/** The current accelerated graphics context */
 	private Graphics2D g;
 	
-	public String title = getClass().getSimpleName();
+	private String title = GameWindow.TITLE + getClass().getSimpleName();
 	
 	/**
 	 * Create a new window to render using Java 2D. Note this will
@@ -60,6 +58,10 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
 	 */
 	public void setTitle(String title) {
 		frame.setTitle(title);
+	}
+	
+	public String getTitle() {
+		return title;
 	}
 
 	/**
@@ -98,18 +100,6 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
-		// add a listener to respond to the user closing the window. If they
-		// do we'd like to exit the game
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				if (callback != null) {
-					callback.windowClosed();
-				} else {
-					System.exit(0);
-				}
-			}
-		});
-
 		// request the focus so key events come to us
 		requestFocus();
 		
@@ -181,4 +171,11 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
 			strategy.show();
 		}
 	}
+
+	/**
+	 * No additional clean-up necessary
+	 */
+	@Override
+    public void stopRendering() {
+    }
 }

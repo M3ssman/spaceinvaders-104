@@ -6,9 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import org.newdawn.spaceinvaders.jogl.JoglGameWindow;
-import org.newdawn.spaceinvaders.lwjgl.LWJGLGameWindow;
-
 /**
  * The main hook of our game. This class with both act as a manager
  * for the display and central mediator for the game logic.
@@ -70,9 +67,6 @@ public class Game extends Canvas implements GameWindowCallback {
 	/** The recorded fps */
 	private int fps;
 
-	/** The normal title of the window */
-	private String windowTitle = "Space Invaders 104 - Version (0.4)";
-
 	/**
 	 * Construct our game and set it running.
 	 *
@@ -85,19 +79,6 @@ public class Game extends Canvas implements GameWindowCallback {
 
 		window.setResolution(800,600);
 		window.setGameWindowCallback(this);
-		if(window instanceof LWJGLGameWindow) {
-			LWJGLGameWindow tmp = (LWJGLGameWindow) window;
-			if(tmp.title != null) {
-				windowTitle = tmp.title;
-			}
-		}
-		if(window instanceof JoglGameWindow) {
-			JoglGameWindow tmp = (JoglGameWindow) window;
-			if(tmp.title != null) {
-				windowTitle = tmp.title;
-			}
-		}
-		window.setTitle(windowTitle);
 
 		window.startRendering();
 	}
@@ -243,7 +224,7 @@ public class Game extends Canvas implements GameWindowCallback {
 
 		// update our FPS counter if a second has passed
 		if (lastFpsTime >= 1000) {
-			window.setTitle(windowTitle+" (FPS: "+fps+")");
+			window.setTitle(window.getTitle()+" (FPS: "+fps+")");
 			lastFpsTime = 0;
 			fps = 0;
 		}
@@ -333,7 +314,7 @@ public class Game extends Canvas implements GameWindowCallback {
 
 		// if escape has been pressed, stop the game
 		if (window.isKeyPressed(KeyEvent.VK_ESCAPE)) {
-			System.exit(0);
+			windowClosed();
 		}
 	}
 
@@ -341,6 +322,7 @@ public class Game extends Canvas implements GameWindowCallback {
 	 * Notification that the game window has been closed
 	 */
 	public void windowClosed() {
+		window.stopRendering();
 		System.exit(0);
 	}
 
