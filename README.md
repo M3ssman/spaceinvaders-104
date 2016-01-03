@@ -15,7 +15,7 @@ The [maven natives] plugin as demonstrated by the [maven-nativedependencies-exam
 There's is a straight Difference of Java2D-Implementations between Windows 7 and Ubuntu 14.04. Although I used on both Systems nearly the same JDK-Version (1.8.0_60 for Windows, 1.8.0._66 at Ubuntu), I see virtually no Difference on Windows between the Java2D and the OpenGL-Versions of the Game. That's not the case with Ubuntu. Here you 'll find a notably tremor with Java2D but it runs smooth with the OpenGL-Versions.
 
 ### JOGL on Windows and Ubuntu
-It's a big deal to update [Kevin Glass]' original Sources to comply with the new [JOGL] API. But, again, here applies the same difference between both OS and the JDK-Versions. Where it works without Problems with Windows 7, I wasn't able to quit the Game as expected under Ubuntu. There seems to be a seriuos Issue with Java AWT and X11, yielding the following Message:
+It's not a big deal to update [Kevin Glass]' original Sources to comply with the new [JOGL] API. But, again, here applies the same difference between both OS and the JDK-Versions. Where it works without Problems with Windows 7, I wasn't able to quit the Game as expected under Ubuntu. There seems to be a seriuos Issue with Java AWT and X11, yielding the following Message:
 
 In fact, I needed to kill the Process manually the hard way. After some recherches I found an alternative Approach using a [JOGL]-custom [GLWindow] as OpenGL Rendering-Stage. At least this works under Ubuntu, but the way User Interactions with the Keyboard are handled do not fit - at far as I can see - in the flow that [Kevin Glass] once designed. The GLWindow Eventqueue and the old AWT-Eventqueue do not like each other, anyway.
 
