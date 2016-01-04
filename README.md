@@ -1,15 +1,17 @@
 # Space Invaders 104
 
-
 ## Description
 
 Space Invaders 104 is the last stage of [Kevin Glass] ' famous Series of Java2D Game Programming Tutorials.
 See the [original tutorial] for further explanations.
 
 ## Features
-This Version extends the [101 maven tutorial] by [marcliberatore] to handles native Dependencies required for [OpenGL]
-using [Apache Maven] as Dependency and Build Tool. It integrates the Shift from GAGE-Timer to System.nanoTime() from the [102 maven tutorial].
-The [maven natives] plugin as demonstrated by the [maven-nativedependencies-example] creates a Distribution containing Native Libraries for Windows and *nix-Plattforms. These Libraries are required by [LWJGL] and [JOGL] for work. More Details can be found at [LWJGL Maven Integration]. Please note, that it currently still uses the older [LWJGL] 2.x-Series.
+* Extends [101 maven tutorial] by [marcliberatore] to handles native Dependencies for [OpenGL]
+* Uses [Apache Maven] as Dependency and Build Tool
+* Follows [OpenGL 2] - Specification
+* Integrates Shift from GAGE-Timer to System.nanoTime() introduced by [102 maven tutorial].
+
+The [maven natives] plugin as demonstrated by the [maven-nativedependencies-example] creates a Distribution containing Native Libraries for Windows and *nix-Plattforms. These Libraries are required by [LWJGL] and [JOGL]. More Details can be found at [LWJGL Maven Integration].
 
 ### OpenGL on Windows and Ubuntu
 There's is an obvious Difference between the Java2D Implementations for Windows 7 and Ubuntu 14.04. 
@@ -81,6 +83,7 @@ licensed under the Common Public License 1.0.
 [marcliberatore]:https://github.com/marcliberatore
 [Apache Maven]:https://maven.apache.org/
 [OpenGL]:https://www.opengl.org/
+[OpenGL 2]:https://www.opengl.org/sdk/docs/man2/
 [102 maven tutorial]:https://github.com/marcliberatore/spaceinvaders-102-java
 [maven natives]:https://code.google.com/p/mavennatives/
 [maven-nativedependencies-example]:http://mavennatives.googlecode.com/svn/trunk/maven-nativedependencies-example/
