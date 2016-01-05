@@ -20,7 +20,9 @@ Although I used on both Systems nearly the same 64bit JDK Versions (1.8.0_60 for
 ### JOGL on Windows and Ubuntu
 It's not a big deal to update [Kevin Glass]' original Sources to comply with the new [JOGL] API. 
 But, again, here applies the same difference between with OS and JDK-Versions. 
-When it works without Problems with Windows 7, I wasn't able to quit the Game as expected under Ubuntu. 
+It works without Problems with Windows 7, but I wasn't able to quit the Game as expected under Ubuntu. 
+
+#### JOGL and Ubuntu 14.04
 There seems to be a serious Issue with Java AWT and X11, yielding the following Message:
 
 ```bash 
@@ -28,9 +30,10 @@ X11Util.Display: Shutdown (JVM shutdown: true, open (no close attempt): 1/1, reu
 X11Util: Open X11 Display Connections: 1
 X11Util: Open[0]: NamedX11Display[:0, 0x7f7600534f20, refCount 1, unCloseable false]
 ```
+The Game Window freezes, but won't go away. In fact, I needed to kill the Process manually the hard way. 
 
-The Game Window freezes, but won't go away. In fact, I needed to kill the Process manually the hard way. After some recherches I found an alternative Approach using a [JOGL]-custom [GLWindow] as OpenGL Rendering-Stage. At least this closes the Java Window.
-But it fails to finish everything fine, presenting a slightly modified X11-Message:
+#### JOGL and the newt-Package
+I found an alternative Approach using a [JOGL]-custom [GLWindow] as OpenGL Rendering-Stage. At least this closes the Java Window. But this fails to finish everything fine, too, presenting a slightly modified X11-Message:
 
 ```bash 
 X11Util.Display: Shutdown (JVM shutdown: true, open (no close attempt): 2/2, reusable (open, marked uncloseable): 0, pending (open in creation order): 2)
@@ -39,8 +42,13 @@ X11Util: Open[0]: NamedX11Display[:0, 0x7fd52c001b90, refCount 1, unCloseable fa
 X11Util: Open[1]: NamedX11Display[:0, 0x7fd52c015f60, refCount 1, unCloseable false]
 
 ```
+This time, pressing Ctrl+C gently releases them Ghosts.
 
-This time, pressing Ctrl+C gently releases them Ghosts. Still, it's not a clean Solution, but the Best I found.
+#### JOGL, the Frames, the Display and it's Context
+
+No matter, I wasn't the only one facing these Problems. Reading [How to close a JOGL window] put me on the right track
+to destroy the GLWindow or the Frame when Game Rendering stops. The X11Utill-Message went away, but unfortunatly I still need to Ctrl+C to get the Terminal back. Not a clean Solution, but the Best I found so far.
+
 
 ### JOGL Events
 
@@ -93,3 +101,4 @@ licensed under the Common Public License 1.0.
 [GLWindow]:https://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/newt/opengl/GLWindow.html
 [M3ssman]:https://github.com/M3ssman/
 [SpriteLib]:http://www.widgetworx.com/widgetworx/portfolio/spritelib.html
+[How to close a JOGL window]:http://stackoverflow.com/questions/28930675/how-do-you-close-a-jogl-newt-glwindow-completely
