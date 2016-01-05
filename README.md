@@ -19,10 +19,11 @@ Although I used on both Systems nearly the same 64bit JDK Versions (1.8.0_60 for
 
 ### JOGL on Windows and Ubuntu
 It's not a big deal to update [Kevin Glass]' original Sources to comply with the new [JOGL] API. 
-But, again, here applies the same difference between with OS and JDK-Versions. 
-It works without Problems with Windows 7, but I wasn't able to quit the Game as expected under Ubuntu. 
+But, again, here applies the same difference between with OS and JDK-Versions. It works without Problems with Windows 7, but I wasn't able to quit the Game as expected under Ubuntu. 
 
-#### JOGL and Ubuntu 14.04
+Sadly, I was (and still am) confronted with a LibEGL-Warning complaining "failed to create a pipe screen for i965", which means that JOGL and the Intel Graphics-Card (Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor Integrated Graphics Controller (rev 06)) of my little Tuxedo don't really like each other.
+
+#### JOGL and AWT
 There seems to be a serious Issue with Java AWT and X11, yielding the following Message:
 
 ```bash 
