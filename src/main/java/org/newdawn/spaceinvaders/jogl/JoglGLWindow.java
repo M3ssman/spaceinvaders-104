@@ -143,9 +143,7 @@ public class JoglGLWindow implements GLEventListener, GameWindow {
 
 	@Override
 	public void stopRendering() {
-		if(animator.isAnimating()) {
-			animator.stop(); // stop the animator loop
-		}
+		glWindow.destroy();
 	}
 
 	GLWindow createGLWindow() {

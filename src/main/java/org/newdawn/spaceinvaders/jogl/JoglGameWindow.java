@@ -139,6 +139,7 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 
 	@Override
 	public void stopRendering() {
+		frame.dispose();
 	}
 
 	/**
@@ -250,8 +251,8 @@ public class JoglGameWindow implements GLEventListener, GameWindow {
 	public void dispose(GLAutoDrawable drawable) {
 		if (animator.isAnimating()) {
 			animator.stop();
-			animator.remove(drawable);
 		}
+		animator.remove(drawable);
 	}
 
 }
