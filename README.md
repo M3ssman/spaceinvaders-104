@@ -13,6 +13,8 @@ See the [original tutorial] for further explanations.
 
 The [maven natives] plugin as demonstrated by the [maven-nativedependencies-example] creates a Distribution containing Native Libraries for Windows and *nix-Plattforms. These Libraries are required by [LWJGL] and [JOGL]. More Details can be found at [LWJGL Maven Integration].
 
+For Development I used a Machine with Ubuntu 14.04-LTS (8 GB Ram, Intel(R) Core(TM) i5-4690T CPU @ 2.50GHz) using OpenGL 3.0 (Mesa 10.1.3).
+
 ### OpenGL on Windows and Ubuntu
 There's is an obvious Difference between the Java2D Implementations for Windows 7 and Ubuntu 14.04. 
 Although I used on both Systems nearly the same 64bit JDK Versions (1.8.0_60 for Windows, 1.8.0.0_66 at Ubuntu), I see virtually no Difference on Windows between the Java2D and the OpenGL-Versions of the Game. That's not the case with Ubuntu. Here you 'll find a notably tremor with Java2D but it runs smooth with the OpenGL-Versions.
@@ -31,7 +33,7 @@ X11Util.Display: Shutdown (JVM shutdown: true, open (no close attempt): 1/1, reu
 X11Util: Open X11 Display Connections: 1
 X11Util: Open[0]: NamedX11Display[:0, 0x7f7600534f20, refCount 1, unCloseable false]
 ```
-The Game Window freezes, but won't go away. In fact, I needed to kill the Process manually the hard way. 
+The Game Window freezes but won't go away. In fact, I needed to kill the Process manually the hard way. 
 
 #### JOGL and the newt-Package
 I found an alternative Approach using a [JOGL]-custom [GLWindow] as OpenGL Rendering-Stage. At least this closes the Java Window. But this fails to finish everything fine, too, presenting a slightly modified X11-Message:
@@ -48,7 +50,7 @@ This time, pressing Ctrl+C gently releases them Ghosts.
 #### JOGL, the Frames, the Display and it's Context
 
 No matter, I wasn't the only one facing these Problems. Reading [How to close a JOGL window] put me on the right track
-to destroy the GLWindow or the Frame when Game Rendering stops. The X11Utill-Message went away, but unfortunatly I still need to Ctrl+C to get the Terminal back. Not a clean Solution, but the Best I found so far.
+to destroy the GLWindow or the Frame when Game Rendering stops. The X11Util-Message went away, but unfortunatly I still need to Ctrl+C to get the Terminal back. Not a clean Solution, but the Best I found so far.
 
 
 ### JOGL Events
